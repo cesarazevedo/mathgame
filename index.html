@@ -73,18 +73,37 @@
             flex-wrap: wrap;
         }
 
-        .theme-toggle {
-            background: var(--primary-color);
-            color: white;
-            border: none;
+        .theme-toggle, .btn {
             padding: 10px 15px;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1.1em;
             transition: all 0.3s;
+            font-weight: bold;
         }
 
-        .theme-toggle:hover {
+        .theme-toggle {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #9e9e9e;
+            color: white;
+        }
+
+        .theme-toggle:hover, .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
@@ -167,12 +186,6 @@
             align-items: center;
             flex-wrap: wrap;
             margin-bottom: 20px;
-        }
-
-        .setting-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .checkbox-group {
@@ -291,7 +304,7 @@
         }
 
         .answer-input {
-            width: 100px;
+            width: 120px;
             padding: 12px;
             font-size: 1.2em;
             text-align: center;
@@ -438,67 +451,6 @@
             margin: 20px 0;
         }
 
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        .btn-secondary {
-            background: #9e9e9e;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #757575;
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: var(--success-color);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5a6fd8;
-            transform: translateY(-2px);
-        }
-
-        .history-section {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .error-analysis {
-            margin: 15px 0;
-            padding: 15px;
-            background: rgba(244, 67, 54, 0.05);
-            border-left: 4px solid var(--error-color);
-            border-radius: 5px;
-        }
-
-        .share-section {
-            text-align: center;
-            margin: 20px 0;
-        }
-
         .share-btn {
             background: #25d366;
             color: white;
@@ -520,43 +472,6 @@
             display: none !important;
         }
 
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .sound-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sound-toggle {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
         @media (max-width: 768px) {
             .container { padding: 10px; }
             .header { flex-direction: column; gap: 15px; }
@@ -573,12 +488,7 @@
         <div class="header">
             <div class="title">🧮 MATGAME PRO</div>
             <div class="header-controls">
-                <div class="sound-controls">
-                    <span>🔊</span>
-                    <button class="sound-toggle" onclick="toggleSound()" id="soundBtn">ON</button>
-                </div>
                 <button class="theme-toggle" onclick="toggleTheme()">🌙 Tema</button>
-                <button class="btn btn-primary" onclick="showProfessorMode()">👨‍🏫 Professor</button>
             </div>
         </div>
 
@@ -619,7 +529,7 @@
             </div>
 
             <div class="game-settings">
-                <div class="setting-group">
+                <div style="display: flex; align-items: center; gap: 10px;">
                     <label>⏱️ Tempo limite:</label>
                     <select id="timeLimit" style="padding: 8px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
                         <option value="0">Sem limite</option>
@@ -654,6 +564,14 @@
                 <div class="checkbox-item">
                     <input type="checkbox" id="enableMod">
                     <label for="enableMod">📐 Resto</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="enableDecimals">
+                    <label for="enableDecimals">🔸 Decimais</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="enableFractions">
+                    <label for="enableFractions">🍰 Frações</label>
                 </div>
             </div>
         </div>
@@ -699,35 +617,11 @@
             
             <div class="action-buttons">
                 <button class="btn btn-secondary" onclick="resetGame()">🔄 Novo exercício</button>
-                <button class="btn btn-primary" onclick="showHistory()">📊 Histórico</button>
                 <button class="btn btn-success" onclick="generateNumbers()">🚀 Continuar</button>
             </div>
             
-            <div class="share-section">
+            <div style="text-align: center; margin: 20px 0;">
                 <button class="share-btn" onclick="shareResult()">📱 Compartilhar</button>
-            </div>
-        </div>
-
-        <!-- Seção de histórico -->
-        <div class="history-section hidden" id="historySection">
-            <h3>📈 Análise de Desempenho</h3>
-            <div id="errorAnalysis"></div>
-            <div id="tipsSuggestions"></div>
-        </div>
-    </div>
-
-    <!-- Modal do modo professor -->
-    <div class="modal hidden" id="professorModal">
-        <div class="modal-content">
-            <h2>👨‍🏫 Modo Professor</h2>
-            <p>Gere exercícios para imprimir!</p>
-            <div style="margin: 20px 0;">
-                <label>Quantidade de exercícios:</label>
-                <input type="number" id="printCount" value="20" min="5" max="50" style="width: 60px; padding: 5px; margin: 0 10px;">
-            </div>
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="generatePrintableExercises()">📄 Gerar PDF</button>
-                <button class="btn btn-secondary" onclick="closeProfessorMode()">❌ Fechar</button>
             </div>
         </div>
     </div>
@@ -739,14 +633,11 @@
         let currentNum2 = 0;
         let correctAnswers = 0;
         let totalQuestions = 0;
-        let soundEnabled = true;
         let currentStreak = 0;
         let bestStreak = 0;
         let totalGames = 0;
         let totalCorrect = 0;
         let totalAnswers = 0;
-        let gameHistory = [];
-        let errorPatterns = {};
         let timerInterval = null;
         let timeLeft = 0;
 
@@ -788,43 +679,182 @@
                 "Resto é o que sobra da divisão",
                 "17÷5 = 3 resto 2, pois 3×5+2=17",
                 "Se não tem resto, é divisível"
+            ],
+            decimal: [
+                "Conte as casas decimais: 1,5 × 2,3 = duas casas",
+                "Para arredondar: 1,236 vira 1,24 (olhe a 3ª casa)",
+                "Vírgula alinha vírgula na soma e subtração",
+                "Na multiplicação: ignore a vírgula, depois volte"
+            ],
+            fraction: [
+                "Para somar frações com mesmo denominador: some só os numeradores",
+                "Para simplificar: divida numerador e denominador pelo mesmo número",
+                "Para comparar frações: transforme em decimal ou use denominador comum",
+                "Para multiplicar frações: multiplique numerador com numerador",
+                "1/2 = 0,5 = 50% (são iguais, apenas formas diferentes)",
+                "Para encontrar frações equivalentes: multiplique em cima e embaixo pelo mesmo número"
             ]
         };
 
-        // Sons usando Web Audio API
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playSound(type) {
-            if (!soundEnabled) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            if (type === 'correct') {
-                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
-            } else if (type === 'incorrect') {
-                oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
-                oscillator.frequency.setValueAtTime(200, audioContext.currentTime + 0.1);
-            } else if (type === 'complete') {
-                oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-                oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-                oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-            }
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.3);
+        // Funções utilitárias para frações
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+        
+        function simplifyFraction(num, den) {
+            const g = gcd(Math.abs(num), Math.abs(den));
+            return [num / g, den / g];
+        }
+        
+        function addFractions(n1, d1, n2, d2) {
+            const commonDen = d1 * d2 / gcd(d1, d2);
+            const newN1 = n1 * (commonDen / d1);
+            const newN2 = n2 * (commonDen / d2);
+            return simplifyFraction(newN1 + newN2, commonDen);
         }
 
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('soundBtn').textContent = soundEnabled ? 'ON' : 'OFF';
+        function generateFractionExercises() {
+            const exercises = [];
+            const level = levels[currentLevel];
+            const maxNum = Math.min(level.max, 12);
+            
+            // Tipos de exercícios de frações
+            const types = [
+                'equivalence', 'simplify', 'compare', 'add_same', 'subtract_same', 
+                'add_diff', 'multiply', 'fraction_to_decimal', 'decimal_to_fraction'
+            ];
+            
+            for (let i = 0; i < 4; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const exercise = createFractionExercise(type, maxNum);
+                if (exercise) exercises.push(exercise);
+            }
+            
+            return exercises;
+        }
+        
+        function createFractionExercise(type, maxNum) {
+            let problem, answer, answerType = 'fraction';
+            
+            switch (type) {
+                case 'equivalence':
+                    const num1 = Math.floor(Math.random() * 6) + 1;
+                    const den1 = Math.floor(Math.random() * 6) + 2;
+                    const multiplier = Math.floor(Math.random() * 3) + 2;
+                    const [simpleNum, simpleDen] = simplifyFraction(num1, den1);
+                    problem = `Complete: ${simpleNum}/${simpleDen} = ?/${simpleDen * multiplier}`;
+                    answer = simpleNum * multiplier;
+                    answerType = 'number';
+                    break;
+                    
+                case 'simplify':
+                    const factor = Math.floor(Math.random() * 3) + 2;
+                    const baseNum = Math.floor(Math.random() * 4) + 1;
+                    const baseDen = Math.floor(Math.random() * 4) + 2;
+                    const unsimplifiedNum = baseNum * factor;
+                    const unsimplifiedDen = baseDen * factor;
+                    const [simplifiedNum, simplifiedDen] = simplifyFraction(unsimplifiedNum, unsimplifiedDen);
+                    problem = `Simplifique: ${unsimplifiedNum}/${unsimplifiedDen}`;
+                    answer = `${simplifiedNum}/${simplifiedDen}`;
+                    break;
+                    
+                case 'compare':
+                    const n1 = Math.floor(Math.random() * 5) + 1;
+                    const d1 = Math.floor(Math.random() * 5) + 2;
+                    const n2 = Math.floor(Math.random() * 5) + 1;
+                    const d2 = Math.floor(Math.random() * 5) + 2;
+                    const val1 = n1 / d1;
+                    const val2 = n2 / d2;
+                    problem = `Compare: ${n1}/${d1} ___ ${n2}/${d2} (digite >, < ou =)`;
+                    answer = val1 > val2 ? '>' : val1 < val2 ? '<' : '=';
+                    answerType = 'text';
+                    break;
+                    
+                case 'add_same':
+                    const den = Math.floor(Math.random() * 6) + 2;
+                    const num1Add = Math.floor(Math.random() * den);
+                    const num2Add = Math.floor(Math.random() * den);
+                    const [addNum, addDen] = simplifyFraction(num1Add + num2Add, den);
+                    problem = `${num1Add}/${den} + ${num2Add}/${den} = `;
+                    answer = addNum === addDen ? '1' : `${addNum}/${addDen}`;
+                    break;
+                    
+                case 'subtract_same':
+                    const denSub = Math.floor(Math.random() * 6) + 2;
+                    const num1Sub = Math.floor(Math.random() * denSub) + 2;
+                    const num2Sub = Math.floor(Math.random() * num1Sub);
+                    const [subNum, subDen] = simplifyFraction(num1Sub - num2Sub, denSub);
+                    problem = `${num1Sub}/${denSub} - ${num2Sub}/${denSub} = `;
+                    answer = subNum === 0 ? '0' : `${subNum}/${subDen}`;
+                    break;
+                    
+                case 'multiply':
+                    const n1Mul = Math.floor(Math.random() * 4) + 1;
+                    const d1Mul = Math.floor(Math.random() * 4) + 2;
+                    const n2Mul = Math.floor(Math.random() * 4) + 1;
+                    const d2Mul = Math.floor(Math.random() * 4) + 2;
+                    const [mulNum, mulDen] = simplifyFraction(n1Mul * n2Mul, d1Mul * d2Mul);
+                    problem = `${n1Mul}/${d1Mul} × ${n2Mul}/${d2Mul} = `;
+                    answer = `${mulNum}/${mulDen}`;
+                    break;
+                    
+                case 'fraction_to_decimal':
+                    const simpleFractions = [[1, 2], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5]];
+                    const [fracNum, fracDen] = simpleFractions[Math.floor(Math.random() * simpleFractions.length)];
+                    problem = `Converta para decimal: ${fracNum}/${fracDen} = `;
+                    answer = (fracNum / fracDen).toString();
+                    answerType = 'number';
+                    break;
+                    
+                case 'decimal_to_fraction':
+                    const simpleDecimals = [0.5, 0.25, 0.75, 0.2, 0.4, 0.6, 0.8];
+                    const decimal = simpleDecimals[Math.floor(Math.random() * simpleDecimals.length)];
+                    let decNum, decDen;
+                    if (decimal === 0.5) [decNum, decDen] = [1, 2];
+                    else if (decimal === 0.25) [decNum, decDen] = [1, 4];
+                    else if (decimal === 0.75) [decNum, decDen] = [3, 4];
+                    else if (decimal === 0.2) [decNum, decDen] = [1, 5];
+                    else if (decimal === 0.4) [decNum, decDen] = [2, 5];
+                    else if (decimal === 0.6) [decNum, decDen] = [3, 5];
+                    else if (decimal === 0.8) [decNum, decDen] = [4, 5];
+                    problem = `Converta para fração: ${decimal} = `;
+                    answer = `${decNum}/${decDen}`;
+                    break;
+                    
+                default:
+                    return null;
+            }
+            
+            return { type, problem, answer, answerType };
+        }
+
+        function validateFractionAnswer(userAnswer, correctAnswer) {
+            // Se a resposta correta é 0 ou 1
+            if (correctAnswer === '0' || correctAnswer === '1') {
+                return userAnswer === correctAnswer;
+            }
+            
+            // Se a resposta correta não é fração
+            if (!correctAnswer.includes('/')) {
+                return parseFloat(userAnswer) === parseFloat(correctAnswer);
+            }
+            
+            // Valida resposta de fração
+            if (userAnswer.includes('/')) {
+                const userParts = userAnswer.split('/');
+                const correctParts = correctAnswer.split('/');
+                if (userParts.length !== 2 || correctParts.length !== 2) return false;
+                
+                const [userNum, userDen] = [parseInt(userParts[0]), parseInt(userParts[1])];
+                const [correctNum, correctDen] = [parseInt(correctParts[0]), parseInt(correctParts[1])];
+                
+                const [userSimpleNum, userSimpleDen] = simplifyFraction(userNum, userDen);
+                const [correctSimpleNum, correctSimpleDen] = simplifyFraction(correctNum, correctDen);
+                
+                return userSimpleNum === correctSimpleNum && userSimpleDen === correctSimpleDen;
+            }
+            
+            return userAnswer === correctAnswer;
         }
 
         function toggleTheme() {
@@ -844,30 +874,71 @@
         }
 
         function generateNumbers() {
-            const level = levels[currentLevel];
-            currentNum1 = Math.floor(Math.random() * (level.max - level.min + 1)) + level.min;
-            currentNum2 = Math.floor(Math.random() * (level.max - level.min + 1)) + level.min;
+            const useFractions = document.getElementById('enableFractions').checked;
             
-            // Para divisão, garantir que seja exata em níveis fáceis
-            if (document.getElementById('enableDiv').checked && currentLevel === 'easy') {
+            if (useFractions) {
+                document.getElementById('number1').textContent = '🍰';
+                document.getElementById('number2').textContent = '🥧';
+                createExercises();
+                startTimer();
+                showExercises();
+                return;
+            }
+            
+            const level = levels[currentLevel];
+            const useDecimals = document.getElementById('enableDecimals').checked;
+            
+            if (useDecimals) {
+                const range = level.max - level.min;
+                currentNum1 = parseFloat((Math.random() * range + level.min).toFixed(1));
+                currentNum2 = parseFloat((Math.random() * range + level.min).toFixed(1));
+            } else {
+                currentNum1 = Math.floor(Math.random() * (level.max - level.min + 1)) + level.min;
+                currentNum2 = Math.floor(Math.random() * (level.max - level.min + 1)) + level.min;
+            }
+            
+            if (document.getElementById('enableDiv').checked && currentLevel === 'easy' && !useDecimals) {
                 currentNum1 = currentNum2 * Math.floor(Math.random() * 5 + 1);
             }
             
-            // Mostra os números com animação
             document.getElementById('number1').textContent = currentNum1;
             document.getElementById('number2').textContent = currentNum2;
             
             createExercises();
-            
-            // Inicia timer se configurado
+            startTimer();
+            showExercises();
+        }
+
+        function startTimer() {
             const timeLimit = parseInt(document.getElementById('timeLimit').value);
             if (timeLimit > 0) {
-                startTimer(timeLimit);
+                timeLeft = timeLimit;
+                updateTimerDisplay();
+                
+                if (timerInterval) clearInterval(timerInterval);
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        checkAnswers();
+                    }
+                }, 1000);
             } else {
                 document.getElementById('timer').textContent = '⏱️ Sem limite';
             }
-            
-            // Mostra seções
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showExercises() {
             document.getElementById('exercises').classList.remove('hidden');
             document.getElementById('checkBtn').classList.remove('hidden');
             document.getElementById('scoreSection').classList.add('hidden');
@@ -878,14 +949,54 @@
             exerciseContainer.innerHTML = '';
             totalQuestions = 0;
             
+            const useFractions = document.getElementById('enableFractions').checked;
+            
+            if (useFractions) {
+                const fractionExercises = generateFractionExercises();
+                fractionExercises.forEach(exercise => {
+                    totalQuestions++;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'exercise-card';
+                    
+                    card.innerHTML = `
+                        <div class="exercise-title">🍰 FRAÇÕES</div>
+                        <div class="exercise-problem">${exercise.problem}</div>
+                        <input type="${exercise.answerType === 'number' ? 'number' : 'text'}" 
+                               step="0.001" class="answer-input" 
+                               data-type="fraction" 
+                               data-correct="${exercise.answer}" 
+                               data-answer-type="${exercise.answerType}"
+                               placeholder="?">
+                        <div class="result"></div>
+                        <div class="tip-box hidden"></div>
+                    `;
+                    
+                    exerciseContainer.appendChild(card);
+                });
+                return;
+            }
+            
+            const useDecimals = document.getElementById('enableDecimals').checked;
             const operations = [
                 { id: 'enableSum', symbol: '➕', op: '+', name: 'SOMA', calc: (a, b) => a + b, type: 'addition' },
                 { id: 'enableSub', symbol: '➖', op: '−', name: 'SUBTRAÇÃO', calc: (a, b) => a - b, type: 'subtraction' },
                 { id: 'enableMul', symbol: '✖️', op: '×', name: 'MULTIPLICAÇÃO', calc: (a, b) => a * b, type: 'multiplication' },
-                { id: 'enableDiv', symbol: '➗', op: '÷', name: 'DIVISÃO', calc: (a, b) => Math.floor(a / b), type: 'division' },
-                { id: 'enablePow', symbol: '🔢', op: '^', name: 'POTÊNCIA', calc: (a, b) => Math.pow(a, Math.min(b, 4)), type: 'power' },
+                { id: 'enableDiv', symbol: '➗', op: '÷', name: 'DIVISÃO', calc: (a, b) => useDecimals ? a / b : Math.floor(a / b), type: 'division' },
+                { id: 'enablePow', symbol: '🔢', op: '^', name: 'POTÊNCIA', calc: (a, b) => Math.pow(a, Math.min(Math.floor(b), 4)), type: 'power' },
                 { id: 'enableMod', symbol: '📐', op: '%', name: 'RESTO', calc: (a, b) => a % b, type: 'modulo' }
             ];
+            
+            if (useDecimals && document.getElementById('enableDecimals').checked) {
+                operations.push({
+                    id: 'enableDecimals', 
+                    symbol: '🔸', 
+                    op: 'decimal', 
+                    name: 'ARREDONDAMENTO', 
+                    calc: (a, b) => Math.round(a * b * 100) / 100, 
+                    type: 'decimal'
+                });
+            }
             
             operations.forEach(operation => {
                 if (document.getElementById(operation.id).checked) {
@@ -895,25 +1006,43 @@
                     card.className = 'exercise-card';
                     
                     let num1 = currentNum1, num2 = currentNum2;
+                    let problemText = '';
+                    let result = 0;
                     
-                    // Ajustes específicos para cada operação
                     if (operation.type === 'power') {
-                        num2 = Math.min(num2, 4); // Limita potência a 4
+                        num2 = Math.min(Math.floor(num2), 4);
+                        result = operation.calc(num1, num2);
                     } else if (operation.type === 'division' && num2 === 0) {
-                        num2 = 1; // Evita divisão por zero
-                    } else if (operation.type === 'modulo' && num2 === 0) {
-                        num2 = 1; // Evita módulo por zero
-                    } else if (operation.type === 'subtraction' && currentLevel === 'easy' && num2 > num1) {
-                        [num1, num2] = [num2, num1]; // Evita negativos no fácil
+                        num2 = 1;
+                        result = operation.calc(num1, num2);
+                    } else if (operation.type === 'modulo' && (num2 === 0 || useDecimals)) {
+                        if (useDecimals) return;
+                        num2 = 1;
+                        result = operation.calc(num1, num2);
+                    } else if (operation.type === 'subtraction' && currentLevel === 'easy' && num2 > num1 && !useDecimals) {
+                        [num1, num2] = [num2, num1];
+                        result = operation.calc(num1, num2);
+                    } else if (operation.type === 'decimal') {
+                        problemText = `${num1} × ${num2} = ? (arredonde para 2 casas)`;
+                        result = operation.calc(num1, num2);
+                    } else {
+                        result = operation.calc(num1, num2);
                     }
                     
-                    const result = operation.calc(num1, num2);
+                    if (useDecimals && operation.type !== 'decimal') {
+                        result = Math.round(result * 100) / 100;
+                    }
+                    
+                    if (problemText === '') {
+                        problemText = `${num1} ${operation.op} ${num2} = `;
+                    }
                     
                     card.innerHTML = `
                         <div class="exercise-title">${operation.symbol} ${operation.name}</div>
-                        <div class="exercise-problem">${num1} ${operation.op} ${num2} = </div>
-                        <input type="number" class="answer-input" data-type="${operation.type}" 
-                               data-correct="${result}" data-num1="${num1}" data-num2="${num2}" placeholder="?">
+                        <div class="exercise-problem">${problemText}</div>
+                        <input type="number" step="0.01" class="answer-input" data-type="${operation.type}" 
+                               data-correct="${result}" data-num1="${num1}" data-num2="${num2}" 
+                               data-answer-type="number" placeholder="?">
                         <div class="result"></div>
                         <div class="tip-box hidden"></div>
                     `;
@@ -923,75 +1052,60 @@
             });
         }
 
-        function startTimer(seconds) {
-            timeLeft = seconds;
-            updateTimerDisplay();
-            
-            if (timerInterval) clearInterval(timerInterval);
-            
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    checkAnswers();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent = 
-                `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (timeLeft <= 10 && timeLeft > 0) {
-                document.getElementById('timer').style.color = '#f44336';
-                document.getElementById('timer').style.animation = 'shake 0.5s ease';
-            }
-        }
-
         function checkAnswers() {
             if (timerInterval) clearInterval(timerInterval);
             
             correctAnswers = 0;
             const cards = document.querySelectorAll('.exercise-card');
-            const currentErrors = [];
             
             cards.forEach(card => {
                 const input = card.querySelector('.answer-input');
                 const resultDiv = card.querySelector('.result');
                 const tipBox = card.querySelector('.tip-box');
-                const userAnswer = parseInt(input.value);
-                const correctAnswer = parseInt(input.dataset.correct);
                 const operationType = input.dataset.type;
-                const num1 = parseInt(input.dataset.num1);
-                const num2 = parseInt(input.dataset.num2);
+                const answerType = input.dataset.answerType || 'number';
                 
-                if (isNaN(userAnswer)) {
+                let userAnswer = input.value.trim();
+                let correctAnswer = input.dataset.correct;
+                let isCorrect = false;
+                
+                if (operationType === 'fraction') {
+                    if (answerType === 'number') {
+                        userAnswer = parseFloat(userAnswer);
+                        correctAnswer = parseFloat(correctAnswer);
+                        isCorrect = Math.abs(userAnswer - correctAnswer) <= 0.001;
+                    } else if (answerType === 'text') {
+                        isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                    } else {
+                        isCorrect = validateFractionAnswer(userAnswer, correctAnswer);
+                    }
+                } else {
+                    userAnswer = parseFloat(userAnswer);
+                    correctAnswer = parseFloat(correctAnswer);
+                    
+                    if (!isNaN(userAnswer)) {
+                        const tolerance = 0.01;
+                        isCorrect = Math.abs(userAnswer - correctAnswer) <= tolerance;
+                    }
+                }
+                
+                if (userAnswer === '' || isNaN(userAnswer)) {
                     resultDiv.textContent = '❓ Você esqueceu de responder!';
                     resultDiv.className = 'result incorrect';
-                } else if (userAnswer === correctAnswer) {
+                } else if (isCorrect) {
                     resultDiv.textContent = '✅ Correto!';
                     resultDiv.className = 'result correct';
                     correctAnswers++;
-                    playSound('correct');
                 } else {
-                    resultDiv.textContent = `❌ Errado! Resposta: ${correctAnswer}`;
+                    let formattedAnswer = correctAnswer;
+                    if (operationType !== 'fraction' && typeof correctAnswer === 'number') {
+                        formattedAnswer = correctAnswer % 1 === 0 ? 
+                            correctAnswer.toString() : 
+                            correctAnswer.toFixed(2);
+                    }
+                    resultDiv.textContent = `❌ Errado! Resposta: ${formattedAnswer}`;
                     resultDiv.className = 'result incorrect';
-                    playSound('incorrect');
                     
-                    // Registra erro para análise
-                    currentErrors.push({
-                        type: operationType,
-                        num1: num1,
-                        num2: num2,
-                        userAnswer: userAnswer,
-                        correctAnswer: correctAnswer
-                    });
-                    
-                    // Mostra dica
                     if (mathTips[operationType]) {
                         const tips = mathTips[operationType];
                         const randomTip = tips[Math.floor(Math.random() * tips.length)];
@@ -1001,21 +1115,15 @@
                 }
             });
             
-            // Atualiza estatísticas
-            updateStats(currentErrors);
+            updateStats();
             showResults();
-            
-            if (correctAnswers === totalQuestions) {
-                playSound('complete');
-            }
         }
 
-        function updateStats(errors) {
+        function updateStats() {
             totalGames++;
             totalAnswers += totalQuestions;
             totalCorrect += correctAnswers;
             
-            // Atualiza streak
             if (correctAnswers === totalQuestions) {
                 currentStreak++;
                 bestStreak = Math.max(bestStreak, currentStreak);
@@ -1023,24 +1131,6 @@
                 currentStreak = 0;
             }
             
-            // Registra erros
-            errors.forEach(error => {
-                if (!errorPatterns[error.type]) {
-                    errorPatterns[error.type] = [];
-                }
-                errorPatterns[error.type].push(error);
-            });
-            
-            // Adiciona ao histórico
-            gameHistory.push({
-                date: new Date(),
-                level: currentLevel,
-                correct: correctAnswers,
-                total: totalQuestions,
-                errors: errors
-            });
-            
-            // Atualiza display
             document.getElementById('totalGames').textContent = totalGames;
             document.getElementById('accuracy').textContent = 
                 totalAnswers > 0 ? Math.round((totalCorrect / totalAnswers) * 100) + '%' : '0%';
@@ -1053,11 +1143,9 @@
             
             const percentage = Math.round((correctAnswers / totalQuestions) * 100);
             
-            // Mostra pontuação
             document.getElementById('score').textContent = 
                 `🎯 Pontuação: ${correctAnswers}/${totalQuestions} (${percentage}%)`;
             
-            // Mostra medalha
             const medalElement = document.getElementById('medal');
             if (percentage === 100) {
                 medalElement.textContent = '🥇';
@@ -1069,67 +1157,15 @@
                 medalElement.textContent = '💪';
             }
             
-            // Mostra streak
             if (currentStreak > 1) {
                 const streakDisplay = document.getElementById('streakDisplay');
                 streakDisplay.textContent = `🔥 Sequência: ${currentStreak} acertos consecutivos!`;
                 streakDisplay.classList.remove('hidden');
             }
             
-            // Atualiza barra de progresso
             const progressFill = document.getElementById('progressFill');
             progressFill.style.width = percentage + '%';
             progressFill.textContent = percentage + '%';
-        }
-
-        function showHistory() {
-            const historySection = document.getElementById('historySection');
-            const errorAnalysis = document.getElementById('errorAnalysis');
-            const tipsSuggestions = document.getElementById('tipsSuggestions');
-            
-            historySection.classList.remove('hidden');
-            
-            // Análise de erros
-            let analysisHTML = '<h4>🔍 Análise de Erros:</h4>';
-            if (Object.keys(errorPatterns).length === 0) {
-                analysisHTML += '<p>✅ Nenhum padrão de erro identificado. Continue assim!</p>';
-            } else {
-                Object.keys(errorPatterns).forEach(type => {
-                    const errors = errorPatterns[type];
-                    const errorCount = errors.length;
-                    const typeNames = {
-                        'addition': 'Soma',
-                        'subtraction': 'Subtração',
-                        'multiplication': 'Multiplicação',
-                        'division': 'Divisão',
-                        'power': 'Potência',
-                        'modulo': 'Resto'
-                    };
-                    
-                    analysisHTML += `
-                        <div class="error-analysis">
-                            <strong>${typeNames[type]}:</strong> ${errorCount} erro(s)<br>
-                            <small>📝 Pratique mais este tipo de operação</small>
-                        </div>
-                    `;
-                });
-            }
-            
-            errorAnalysis.innerHTML = analysisHTML;
-            
-            // Sugestões baseadas no desempenho
-            let suggestions = '<h4>💡 Sugestões:</h4>';
-            const accuracy = totalAnswers > 0 ? (totalCorrect / totalAnswers) * 100 : 0;
-            
-            if (accuracy < 60) {
-                suggestions += '<p>📚 Tente o nível mais fácil para ganhar confiança</p>';
-            } else if (accuracy > 90) {
-                suggestions += '<p>🚀 Você está pronto para o próximo nível!</p>';
-            } else {
-                suggestions += '<p>👍 Continue praticando para melhorar ainda mais</p>';
-            }
-            
-            tipsSuggestions.innerHTML = suggestions;
         }
 
         function shareResult() {
@@ -1155,69 +1191,12 @@ Pratique matemática de forma divertida!`;
             }
         }
 
-        function showProfessorMode() {
-            document.getElementById('professorModal').classList.remove('hidden');
-        }
-
-        function closeProfessorMode() {
-            document.getElementById('professorModal').classList.add('hidden');
-        }
-
-        function generatePrintableExercises() {
-            const count = parseInt(document.getElementById('printCount').value);
-            const level = levels[currentLevel];
-            
-            let exerciseList = '';
-            let answerList = '';
-            
-            for (let i = 1; i <= count; i++) {
-                const num1 = Math.floor(Math.random() * (level.max - level.min + 1)) + level.min;
-                const num2 = Math.floor(Math.random() * (level.max - level.min + 1)) + level.min;
-                
-                const operations = [
-                    { symbol: '+', result: num1 + num2 },
-                    { symbol: '−', result: num1 - num2 },
-                    { symbol: '×', result: num1 * num2 },
-                    { symbol: '÷', result: Math.floor(num1 / num2) }
-                ];
-                
-                const randomOp = operations[Math.floor(Math.random() * operations.length)];
-                
-                exerciseList += `${i}. ${num1} ${randomOp.symbol} ${num2} = _____\n`;
-                answerList += `${i}. ${randomOp.result}\n`;
-            }
-            
-            const printContent = `
-MATGAME PRO - Lista de Exercícios
-Nível: ${levels[currentLevel].label}
-Data: ${new Date().toLocaleDateString('pt-BR')}
-
-EXERCÍCIOS:
-${exerciseList}
-
-RESPOSTAS:
-${answerList}
-            `;
-            
-            // Cria um blob e faz download
-            const blob = new Blob([printContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `matgame-exercicios-${new Date().getTime()}.txt`;
-            a.click();
-            
-            closeProfessorMode();
-            alert('📄 Lista de exercícios gerada! Verifique seus downloads.');
-        }
-
         function resetGame() {
             document.getElementById('number1').textContent = '?';
             document.getElementById('number2').textContent = '?';
             document.getElementById('exercises').classList.add('hidden');
             document.getElementById('checkBtn').classList.add('hidden');
             document.getElementById('scoreSection').classList.add('hidden');
-            document.getElementById('historySection').classList.add('hidden');
             document.getElementById('timer').textContent = '⏱️ --:--';
             
             if (timerInterval) clearInterval(timerInterval);
@@ -1228,16 +1207,6 @@ ${answerList}
             if (e.key === 'Enter' && !document.getElementById('checkBtn').classList.contains('hidden')) {
                 checkAnswers();
             }
-        });
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicia o contexto de áudio com interação do usuário
-            document.addEventListener('click', function() {
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-            }, { once: true });
         });
     </script>
 </body>
